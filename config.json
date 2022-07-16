@@ -1,0 +1,12 @@
+{
+    "ModeA":false,
+    "VIP":[100,95,90,85],
+    "//_ModeA":"ModeA=VIP會員有平台幣優惠價格 (例如: VIP1: 95折，VIP2: 9折，VIP3: 85折，各個等級的折扣會依照活動做調整。)",
+    "ModeB":false,
+    "Rate":2,
+    "//_ModeB":"ModeB=扣平台點數折抵平台幣優惠",
+    "ExtraMode":false,
+    "ExtraLimit":100,
+    "ExtraRate":90,
+    "//_ExtraMode":"ExtraMode=如果有VIP身份扣100點以上折抵，另外享再九折優惠"
+}
