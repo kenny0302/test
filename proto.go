@@ -14,11 +14,12 @@ type Request struct {
 }
 
 type Config struct {
-	ModeB      bool  `json:"ModeB"`
-	VIP        []int `json:"Vip"`
-	ModeC      bool  `json:"ModeC"`
-	Rate       int   `json:"rate"`
-	ExtraMode  bool  `json:"ExtraMode"`
-	ExtraLimit int   `json:"ExtraLimit"`
-	ExtraRate  int   `json:"ExtraRate"`
+	ModeB            bool  `json:"modeB"`
+	VIP              []int `json:"vip"`
+	ModeC            bool  `json:"modeC"`
+	Rate             int   `json:"rate"`
+	Point_Rate_Limit int   `json:"point_rate_limit"`
+	ExtraMode        bool  `json:"extramode"`
+	ExtraLimit       int   `json:"extralimit"`
+	ExtraRate        int   `json:"extrarate"`
 }

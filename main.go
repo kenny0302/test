@@ -87,12 +87,19 @@ func pay(w http.ResponseWriter, r *http.Request) {
 
 	//使用點數 ModeC
 	if config.ModeC {
-		if req.Used_Point != 0 && member.Points >= req.Used_Point {
-			final_total = final_total - (req.Used_Point * config.Rate)
-		} else if req.Used_Point != 0 && member.Points < req.Used_Point {
+		limit := int(math.Round(float64(req.Total*(100-config.Point_Rate_Limit))) / 100)
+		if req.Used_Point*config.Rate > limit {
 			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte("No Enought Points"))
+			w.Write([]byte("Out of Point"))
 			return
+		} else {
+			if req.Used_Point != 0 && member.Points >= req.Used_Point {
+				final_total = final_total - (req.Used_Point * config.Rate)
+			} else if req.Used_Point != 0 && member.Points < req.Used_Point {
+				w.WriteHeader(http.StatusBadRequest)
+				w.Write([]byte("No Enought Points"))
+				return
+			}
 		}
 	}
 
