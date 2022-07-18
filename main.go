@@ -3,10 +3,12 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"math"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/go-redis/redis/v8"
 )
@@ -20,7 +22,7 @@ func main() {
 
 func pay(w http.ResponseWriter, r *http.Request) {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "127.0.0.1:6379",
+		Addr:     "database:6379",
 		Password: "",
 		DB:       0,
 	})
@@ -41,7 +43,7 @@ func pay(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//取得會員資料
-	val, err := rdb.Get(ctx, "member"+req.Id).Bytes()
+	val, err := rdb.Get(ctx, "member"+req.Member_Id).Bytes()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("No Member:" + err.Error()))
@@ -69,8 +71,8 @@ func pay(w http.ResponseWriter, r *http.Request) {
 	}
 	var final_total int
 	final_total = req.Total
-	//會員折扣
-	if config.ModeA {
+	//會員折扣 ModeB
+	if config.ModeB {
 		switch member.Vip {
 		case 1:
 			final_total = int(math.Round(float64(req.Total*config.VIP[1])) / 100)
@@ -83,8 +85,8 @@ func pay(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	//使用點數
-	if config.ModeB {
+	//使用點數 ModeC
+	if config.ModeC {
 		if req.Used_Point != 0 && member.Points >= req.Used_Point {
 			final_total = final_total - (req.Used_Point * config.Rate)
 		} else if req.Used_Point != 0 && member.Points < req.Used_Point {
@@ -111,7 +113,7 @@ func pay(w http.ResponseWriter, r *http.Request) {
 	}
 	data, _ := json.Marshal(member)
 
-	err = rdb.Set(ctx, "member"+member.Id, data, 0).Err()
+	err = rdb.Set(ctx, "member"+member.Member_Id, data, 0).Err()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Can Not Pay" + err.Error()))
@@ -119,4 +121,6 @@ func pay(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+	str := fmt.Sprintf("本次交易 %s 元，該會員為Vip %s 享 %s 折，使用 %s 點(1點= %s 元)，結帳金額為 %s 元，剩餘 %s 點 %s 元", strconv.Itoa(req.Total), strconv.Itoa(member.Vip), strconv.Itoa(config.VIP[member.Vip]), strconv.Itoa(req.Used_Point), strconv.Itoa(config.Rate), strconv.Itoa(final_total), strconv.Itoa(member.Points), strconv.Itoa(member.Coins))
+	w.Write([]byte(str))
 }

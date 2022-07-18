@@ -12,19 +12,14 @@
 
 **以上答案請以函式庫方式提交，7/20前上傳到自己的github再分享給我們，謝謝。
 
-【解答】
-環境:啟動redis container(insert假會員資料)
-===
-SET member001 '{"Id": "001", "Vip": 1,"Points":100,"Coins":1000}'
-===
-編譯專案 `go build`
+【做法】
+環境:啟動docker compose 並在redis container insert假會員資料
+SET member001 '{"Member_Id": "001", "Vip": 1,"Points":100,"Coins":1000}'
 透過postman測試api
-===
 curl --location --request POST '127.0.0.1:8000/pay' \
 --header 'Content-Type: text/plain' \
 --data-raw '{
-    "Id":"001",
+    "Member_Id":"001",
     "Used_Point":100,
     "Total":500
 }'
-===

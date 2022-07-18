@@ -1,0 +1,12 @@
+version: '2'
+services:
+  db:
+     image: redis:latest
+     ports:
+      - 6379:6379
+  main:
+     image: username/test
+     links:
+      - 'db:database'
+     ports:
+       - 8000:8000
