@@ -1,3 +1,12 @@
+// Package classification Pays API.
+//
+// The purpose of this service is to provide an application
+// that is using plain go code to define an API
+//
+//      Host: localhost
+//      Version: 0.0.1
+//
+// swagger:meta
 package main
 
 import (
@@ -21,6 +30,14 @@ func main() {
 }
 
 func pay(w http.ResponseWriter, r *http.Request) {
+	// swagger:route POST /pay
+	//
+	// pay by point/coin
+	//
+	// This will show a user info
+	//
+	//     Responses:
+	//       200: UserResponse
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     "database:6379",
 		Password: "",

@@ -9,7 +9,7 @@ import (
 
 func TestPay(t *testing.T) {
 
-	var jsonStr = []byte(`{"Id": "001", "Vip": 1,"Points":100,"Coins":1000}`)
+	var jsonStr = []byte(`{"Member_Id": "001", "Vip": 1,"Points":100,"Coins":1000}`)
 
 	req, err := http.NewRequest("POST", "/pay", bytes.NewBuffer(jsonStr))
 	if err != nil {

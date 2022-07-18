@@ -1,0 +1,71 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "針對平台產品銷售有不同的收費機制，該系統中有平台點數及平台幣（平台幣是主要扣款使用的幣別），依照不同商品及不同的用戶等級會有不同的收費模式。\n主要收費模式會分成下列三種。 Ａ、正常平台幣收費 Ｂ、VIP會員有平台幣優惠價格 (例如: VIP1: 95折，VIP2: 9折，VIP3: 85折，各個等級的折扣會依照活動做調整。) Ｃ、扣平台點數折抵平台幣優惠（例如：設定平台點數1:1折抵，則1000元商品可以使用100點扣抵扣在另外支付900元購買，折抵比例依照活動做調整。）\n平台會不定時舉辦各式的優惠活動，活動時會彈性調整方案B及C的優惠內容。依照不同的活動內容可以排程調整活動。 1. 請使用Golang實作一個收銀系統（請考慮Clean Code及Design Pattern）。 2. 承上題，平台後來新增了另一個收費模式，如果有VIP身份扣100點以上折抵，另外享再九折優惠。（考慮SOLID）",
+      "version": "1.0.0",
+      "title": "Swagger Pay"
+    },
+    "host": "localhost",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "pay",
+        "description": "input member id, point,coin"
+      }
+    ],
+    "paths": {
+      "/pay": {
+        "post": {
+          "tags": [
+            "pay"
+          ],
+          "summary": "input member id, point,coin",
+          "description": "input member id, point,coin",
+          "operationId": "pay",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "input member id, point,coin",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Request"
+              }
+            }
+          ],
+          "responses": {
+            "400": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Request": {
+        "type": "object",
+        "properties": {
+          "Member_Id": {
+            "type": "string"
+          },
+          "Used_Point": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "Total": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "xml": {
+          "name": "Request"
+        }
+      }
+    }
+  }
