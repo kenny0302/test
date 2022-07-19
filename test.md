@@ -20,6 +20,6 @@ curl --location --request POST '127.0.0.1:8000/pay' \
 --header 'Content-Type: text/plain' \
 --data-raw '{
     "Member_Id":"001",
-    "Used_Point":100,
+    "Used_Point":50,
     "Total":500
 }'
